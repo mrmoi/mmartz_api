@@ -52,7 +52,7 @@ class PlayersController extends Controller
 
         if ( ! $player)
         {
-            return Response::json([
+            return response()->json([
 
                 'error' => [
 
@@ -62,7 +62,7 @@ class PlayersController extends Controller
             ],404);
         }
 
-        return Response::json([
+        return response()->json([
 
             'data' => $player->toArray()
 
