@@ -15,7 +15,13 @@ class PlayersController extends Controller
     public function index()
     {
         //
-        return Player::all();
+        $player = Player::all();
+
+        return response()->json([
+
+            'data' => $player->toArray()
+
+        ], 200);
     }
 
     /**

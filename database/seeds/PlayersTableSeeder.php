@@ -22,28 +22,12 @@ class PlayersTableSeeder extends Seeder
                           'Left Wing', 'Attacking Midfield', 'Centre-Back',
                           'Defensive Midfield', 'Central Midfield', 'Centre-Forward'];
 
-            $countries = ['Germany',
-                'Brazil',
-                'Portugal',
-                'Argentina',
-                'Belgium',
-                'Poland',
-                'France',
-                'Spain',
-                'Chile',
-                'Peru',
-                'Switzerland',
-                'England',
-                'Colombia',
-                'Wales',
-                'Italy',
-                'Mexico',
-                'Uruguay',
-                'Croatia',
-                'Denmark',
-                'Netherlands'];
+            $countries = ['Germany', 'Brazil', 'Portugal', 'Argentina', 'Belgium', 'Poland', 'France',
+                          'Spain', 'Chile', 'Peru', 'Switzerland', 'England', 'Colombia', 'Wales',
+                          'Italy', 'Mexico', 'Uruguay', 'Croatia', 'Denmark', 'Netherlands'];
 
-            foreach (range(1,20) as $index)
+
+            foreach (range(1,25) as $index)
             {
 
                 Player::create([
@@ -52,7 +36,8 @@ class PlayersTableSeeder extends Seeder
                     'DOB' => $faker->dateTimeBetween($startDate = '-40 years', $endDate = '-15 years', $timezone = null),
                     'nationality' => $countries[array_rand($countries)],
                     'position' => $positions[array_rand($positions)],
-                    'market_value' => $faker->numberBetween($min = 1000, $max = 225000000) // 8567,
+                    'market_value' => $faker->numberBetween($min = 1000, $max = 225000000), // 8567,
+                    'is_test' => $faker->boolean()
                 ]);
 
             }

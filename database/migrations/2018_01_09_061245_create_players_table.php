@@ -21,6 +21,7 @@ class CreatePlayersTable extends Migration
             $table->string('nationality');
             $table->string('position');
             $table->integer('market_value');
+            $table->boolean('is_test');
             $table->timestamps();
         });
     }
