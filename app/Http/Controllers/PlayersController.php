@@ -48,6 +48,25 @@ class PlayersController extends Controller
     public function show($id)
     {
         //
+        $player = Player::find($id);
+
+        if ( ! $player)
+        {
+            return Response::json([
+
+                'error' => [
+
+                    'message'   => 'Player does not exist'
+                ]
+
+            ],404);
+        }
+
+        return Response::json([
+
+            'data' => $player->toArray()
+
+        ], 200);
     }
 
     /**
