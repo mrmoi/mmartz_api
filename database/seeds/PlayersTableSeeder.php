@@ -27,7 +27,7 @@ class PlayersTableSeeder extends Seeder
                           'Italy', 'Mexico', 'Uruguay', 'Croatia', 'Denmark', 'Netherlands'];
 
 
-            foreach (range(1,25) as $index)
+            foreach (range(1,50) as $index)
             {
 
                 Player::create([

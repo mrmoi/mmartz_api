@@ -1,12 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Queue\RedisQueue;
+use TestComp\Transformers\PlayerTransformer;
+use App\Http\Controllers\ApiController;
 use App\Player;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
-class PlayersController extends Controller
+
+class PlayersController extends ApiController
 {
+
+    protected $playerTransformer;
+
+    function __construct(PlayerTransformer $playerTransformer)
+    {
+        $this->PlayerTransformer = $playerTransformer;
+
+        // activate basic authentication - only on posts
+        $this->middleware('auth.basic',['only'=> 'post']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,11 +32,12 @@ class PlayersController extends Controller
         //
         $player = Player::all();
 
-        return response()->json([
+        return $this->respond([
 
-            'data' => $player->toArray()
+            // transform -> method on controller
+            'data' => $this->PlayerTransformer->transformCollection($player->all()) //->transformCollection($player->all())
 
-        ], 200);
+        ]);
     }
 
     /**
@@ -43,6 +59,38 @@ class PlayersController extends Controller
     public function store(Request $request)
     {
         //
+        if (! $request->input('id') or ! $request->input('player_first_name'))
+        {
+            // 400, 403, 422 - 400 Bad request - 403 Forbidden - 422 Unprocessable entity
+            return $this->setStatusCode(422)
+                ->respondWithError('Parameters failed the validation for a player');
+        }
+
+/*        $player = new Player;
+        $player->first_name = $request->first_name;
+        $player->last_name = $request->last_name;
+        $player->DOB = $request->DOB;
+        $player->nationality = $request->nationality;
+        $player->position = $request->position;
+        $player->market_value = $request->market_value;
+        $player->is_test = $request->is_test;*/
+
+        //$player->save();
+
+
+/*        $player = Player::create($request->all());
+
+        $player->save();*/
+
+        Player::create(Input::all());
+
+        return $this->setStatusCode(201)->respond([
+           'message' => 'Player successfully created.'
+        ]);
+
+        //first_name', 'last_name', 'DOB', 'nationality', 'position', 'market_value'
+
+
     }
 
     /**
@@ -58,21 +106,14 @@ class PlayersController extends Controller
 
         if ( ! $player)
         {
-            return response()->json([
-
-                'error' => [
-
-                    'message'   => 'Player does not exist'
-                ]
-
-            ],404);
+            return $this->respondNotFound('Player does not exist.');
         }
 
-        return response()->json([
+        return $this->respond([
 
-            'data' => $player->toArray()
+            'data' => $this->PlayerTransformer->transform($player)
 
-        ], 200);
+        ]);
     }
 
     /**
