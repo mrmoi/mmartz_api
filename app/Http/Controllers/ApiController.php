@@ -29,10 +29,13 @@ class ApiController extends Controller
         return $this;
     }
 
+
+
     public function respondNotFound($message = 'Not Found!')
     {
         return $this->setStatusCode(404)->respondWithError($message);
     }
+
 
 
     public function respondInternalError($message = 'Internal Error!')
@@ -41,10 +44,12 @@ class ApiController extends Controller
     }
 
 
+
     public function respond($data, $headers = [])
     {
         return response()->json($data, $this->getStatusCode(), $headers);
     }
+
 
 
     public function respondWithError($message)
@@ -55,5 +60,24 @@ class ApiController extends Controller
                 'status_code'   => $this->getStatusCode()
             ]
         ]);
+    }
+
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function respondCreated($message)
+    {
+        return $this->setStatusCode(201)->respond([
+            'message' => $message
+        ]);
+    }
+
+
+
+    public function respondCreatedFailed($message)
+    {
+        return $this->setStatusCode(422)
+            ->respondWithError($message);
     }
 }

@@ -20,6 +20,7 @@ class PlayerTransformer extends Transformer
             'player_last_name'  => $player['last_name'],
             'date_of_birth'     => $player['DOB'],
             'country'           => $player['nationality'],
+            'position'          => $player['position'],
             'value'             => $player['market_value'],
             'test_player'       => $player['is_test'],
             'origin_datetime'   => $player['created_at'],
