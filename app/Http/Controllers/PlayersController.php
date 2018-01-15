@@ -73,7 +73,7 @@ class PlayersController extends ApiController
     public function store(Request $request)
     {
         // ! $request->input('id') or !
-        if (! $request->input('id'))
+        if (! $request->input('first_name'))
         {
             // 400, 403, 422 - 400 Bad request - 403 Forbidden - 422 Unprocessable entity
             return $this->respondCreatedFailed('The parameters failed the validation for a player');
